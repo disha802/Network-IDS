@@ -1,86 +1,70 @@
-# Network Intrusion Detection using Supervised Machine Learning
 
-## Overview
-This project implements a **supervised machine learning-based Network Intrusion Detection System (NIDS)** to classify network traffic as **normal or malicious**. The goal is to enhance cybersecurity through automation, accuracy, and cost efficiency.
-
----
-
-## Problem Domain
-Modern networks are exposed to frequent cyber threats such as DoS attacks, probing, and unauthorized access. Traditional rule-based security systems are insufficient to detect evolving attack patterns. Machine learning enables adaptive and data-driven intrusion detection.
+Derived features include:
+- Flow duration
+- Packets per second
+- Bytes per second
+- Forward and backward packet counts
+- Inter-arrival times (IAT)
 
 ---
 
-## Problem Statement
-The objective is to develop a **classification model** that:
-- Identifies network intrusions accurately
-- Achieves **≥ 90% accuracy**
-- Supports business goals including **security enhancement, automation, and cost reduction**
+### Step 6: Machine Learning Model Training
+
+Two separate models are trained:
+
+#### Model A: Offline IDS Model
+- Trained only on benchmark dataset
+- Uses extracted flow features
+- Serves as a reference IDS
+
+#### Model B: Real-Time IDS Model
+- Trained only on real-time captured data
+- Labeled manually as:
+  - Benign
+  - DoS
+
+Both models use the **same ML algorithm** (e.g., Random Forest or Logistic Regression) for fair comparison.
 
 ---
 
-## Input Data Requirements
-### Data
-- Labeled network traffic records
-- Features include protocol type, connection duration, byte counts, and error rates
-
-### Sources
-- NSL-KDD
-- UNSW-NB15
-- CICIDS2017
-
-### Considerations
-- Class imbalance
-- Dataset bias
-- CSV structured format
+### Step 7: Attack Simulation
+A controlled ICMP flood is generated from the attacker machine:
+- High-frequency ping requests
+- Targeting victim machine
+- Conducted in a closed lab environment
 
 ---
 
-## Output Requirements
-- Binary classification:
-  - `0` → Normal traffic
-  - `1` → Intrusion detected
-- Evaluation Metrics:
-  - Accuracy
-  - Precision
-  - Recall
-  - F1-score
-- Confusion Matrix for analysis
+### Step 8: Deployment and Comparison
+Both models are deployed on:
+- Live captured traffic
+- DoS attack traffic
+
+Evaluation criteria:
+- Detection accuracy
+- False positives
+- Sensitivity to DoS traffic
+- Generalization to unseen traffic
 
 ---
 
-## Constraints and Assumptions
-### Constraints
-- Limited real-world labeled attack data
-- Computational resource limits
-
-### Assumptions
-- Dataset reflects real network behavior
-- Extracted features are accurate and relevant
-
----
-
-## Feasibility and Impact
-### Feasibility
-- Availability of benchmark datasets
-- Use of Scikit-learn for model development
-- Proven effectiveness of supervised classifiers
-
-### Impact
-- Faster and more accurate intrusion detection
-- Reduced manual monitoring
-- Improved network security and operational efficiency
-
----
-
-## Tech Stack
-- Python
+## Technologies Used
+- Python 3
+- PyShark
+- Wireshark / Tshark
 - Pandas, NumPy
 - Scikit-learn
-- Matplotlib / Seaborn
+- CSV-based data pipelines
 
 ---
 
-## Future Work
-- Real-time traffic integration
-- Multi-class attack classification
-- Hybrid supervised + unsupervised detection
+## Outcome
+This project demonstrates:
+- The feasibility of building an ML-based IDS using real-time traffic
+- Differences between offline-trained and real-time-trained IDS models
+- Practical challenges in live IDS deployment
+
+---
+
+## Disclaimer
+All attack simulations were performed in a **controlled academic environment** for educational purposes only.
